@@ -10,10 +10,10 @@ Mautic is an open-source marketing automation platform built on **Symfony 7.4** 
 
 ### Development Setup
 ```bash
-# DDEV-based setup (recommended) - auto-installs and configures everything
+# Canonical local setup
 ddev start
 
-# Manual setup
+# Fallback manual setup
 composer install
 npm ci && npm run build
 bin/console mautic:install <site-url>
@@ -22,34 +22,34 @@ bin/console mautic:install <site-url>
 ### Testing
 ```bash
 # Run all PHPUnit tests
-composer test
+ddev exec composer test
 
 # Run specific test file
-bin/phpunit app/bundles/EmailBundle/Tests/Functional/EmailClickTrackingTest.php
+ddev exec bin/phpunit app/bundles/EmailBundle/Tests/Functional/EmailClickTrackingTest.php
 
 # Run specific bundle tests
-bin/phpunit app/bundles/CoreBundle/Tests
+ddev exec bin/phpunit app/bundles/CoreBundle/Tests
 
 # Run specific test method
-bin/phpunit --filter testGuessTimezoneFromOffset
+ddev exec bin/phpunit --filter testGuessTimezoneFromOffset
 
 # E2E acceptance tests (Codeception)
-composer run e2e-test
+ddev exec composer run e2e-test
 ```
 
 ### Code Quality
 ```bash
-composer phpstan          # Static analysis (level 6)
-composer cs               # Check coding standards (dry-run)
-composer fixcs            # Auto-fix coding standards
-composer rector           # Run Rector refactoring (code + tests)
-bin/console lint:twig app plugins  # Lint Twig templates
+ddev exec composer phpstan          # Static analysis (level 6)
+ddev exec composer cs               # Check coding standards (dry-run)
+ddev exec composer fixcs            # Auto-fix coding standards
+ddev exec composer rector           # Run Rector refactoring (code + tests)
+ddev exec bin/console lint:twig app plugins  # Lint Twig templates
 ```
 
 ### Asset Management
 ```bash
-composer generate-assets  # Regenerate compiled assets
-npm run build            # Build frontend with webpack
+ddev exec composer generate-assets  # Regenerate compiled assets
+ddev exec npm run build             # Build frontend with webpack
 ```
 
 ## Architecture
@@ -103,12 +103,12 @@ MauticExampleBundle/
 
 Before submitting PRs, run:
 ```bash
-composer test      # PHPUnit tests pass
-composer phpstan   # Static analysis passes
-composer cs        # Coding standards check
+ddev exec composer test      # PHPUnit tests pass
+ddev exec composer phpstan   # Static analysis passes
+ddev exec composer cs        # Coding standards check
 ```
 
-For UI changes, also run `composer run e2e-test`.
+For UI changes, also run `ddev exec composer run e2e-test`.
 
 ## Configuration
 
@@ -116,3 +116,4 @@ For UI changes, also run `composer run e2e-test`.
 - Environment configs: `app/config/config_*.php`
 - Test environment: `APP_ENV=test`
 - DDEV auto-generates `config/local.php` from `.ddev/local.config.php.dist`
+- Canonical local flow in this workspace: `DDEV`.
